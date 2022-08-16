@@ -1,0 +1,6 @@
+__pycache__/
+.env/
+
+redis.json
+recvtests.py
+sendtests.py
