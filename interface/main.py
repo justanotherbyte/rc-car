@@ -1,10 +1,13 @@
+from typing import Union
+
 from kivy.core.window import Window
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.widget import Widget
-from kivy.uix.slider import Slider
-from kivy.uix.label import Label
+from kivymd.app import MDApp as App
+from kivymd.uix.boxlayout import MDBoxLayout as BoxLayout
+from kivymd.uix.button import MDRaisedButton as Button
+from kivymd.uix.widget import MDWidget as Widget
+from kivymd.uix.slider.slider import MDSlider as Slider
+from kivymd.uix.label.label import Label
+from kivymd.uix.pickers.colorpicker.colorpicker import MDColorPicker
 from kivy.clock import Clock
 from kivy.garden.joystick import Joystick # type: ignore
 
@@ -32,8 +35,8 @@ class ControllerLayout(Widget):
             message = Message(stop=True)
             input_handler.force_send(message)
 
-        emergency_stop_button = Button(text="Emergency Stop", background_color=(0.75, 0.25, 0.24), on_press=_emergency_stop, size_hint=(1, 0.5), font_size="100sp")
-        distance_label = Label(text="No Distance Received", font_size="60sp")
+        emergency_stop_button = Button(text="Emergency Stop", on_press=_emergency_stop, size_hint=(1, 0.5), font_size="100sp")
+        distance_label = Label(text="No Distance Received", font_size="60sp", color=(200, 200, 200))
 
         def _distance_recv(message: Message):
             if message.distance is not None:

@@ -8,7 +8,6 @@ from queue import Queue, Empty
 from threading import Thread
 
 import redis
-from kivy.uix.button import Button
 from kivy.uix.slider import Slider
 from kivy.clock import Clock
 
