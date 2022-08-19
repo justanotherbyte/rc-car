@@ -7,6 +7,11 @@ from typing import (
 )
 
 import aioredis
+from trilobot import Trilobot
+
+
+tbot = Trilobot()
+
 
 
 class Message(TypedDict):
@@ -37,7 +42,15 @@ class AsyncReceiver:
             await self.handle_message(data)
 
     async def handle_message(self, message: Message):
-        print(message)
+        direction = message.get("direction")
+        if direction:
+            tbot.set_left_speed(direction[0])
+            tbot.set_right_speed(direction[1])
+
+        stop = message.get("stop")
+
+        if stop is True:
+            tbot.stop()
 
     async def start(self):
         await self.pubsub.subscribe("remotecommands")
