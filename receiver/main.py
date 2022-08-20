@@ -11,7 +11,7 @@ from trilobot import Trilobot
 
 
 tbot = Trilobot()
-
+tbot.fill_underlighting((0, 0, 255))
 
 
 class Message(TypedDict):
