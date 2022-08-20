@@ -62,7 +62,7 @@ class AsyncReceiver:
 
         if direction:
             lx = lowest(direction[0])
-            ly = lowest(direction[0])
+            ly = lowest(direction[1])
             ly = 0 - ly
 
             tbot.set_left_speed(ly + lx)
