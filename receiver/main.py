@@ -72,7 +72,7 @@ class AsyncReceiver:
 
             if ly < 0:
                 lx = 0 - lx
-                adjust_speed = 0
+                adjust_speed = -adjust_speed
             
             x_speed, y_speed = joy_to_diff_drive(lx, ly)
             print(x_speed, y_speed)
