@@ -72,8 +72,8 @@ class AsyncReceiver:
             ly = direction[1]
             
             x_speed, y_speed = joy_to_diff_drive(lx, ly)
-            tbot.set_left_speed(x_speed)
-            tbot.set_right_speed(y_speed)
+            tbot.set_left_speed(x_speed + self.previous_speed)
+            tbot.set_right_speed(y_speed + self.previous_speed)
 
         stop = message.get("stop")
 
