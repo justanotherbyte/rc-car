@@ -1,4 +1,5 @@
 import asyncio
+import math
 import json
 from typing import (
     List,
@@ -13,6 +14,12 @@ from trilobot import Trilobot
 tbot = Trilobot()
 tbot.fill_underlighting((0, 0, 255))
 
+
+def joy_to_diff_drive(joy_x, joy_y):
+    left = joy_x * math.sqrt(2.0)/2.0 + joy_y * math.sqrt(2.0)/2.0
+    right = -joy_x * math.sqrt(2.0)/2.0 + joy_y * math.sqrt(2.0)/2.0
+
+    return (left, right)
 
 class Message(TypedDict):
     direction: Optional[List[float]]
@@ -63,10 +70,10 @@ class AsyncReceiver:
         if direction:
             lx = direction[0]
             ly = direction[1]
-            ly = 0 - ly
-
-            tbot.set_left_speed(ly + lx)
-            tbot.set_right_speed(ly - lx)
+            
+            x_speed, y_speed = joy_to_diff_drive(lx, ly)
+            tbot.set_left_speed(x_speed)
+            tbot.set_right_speed(y_speed)
 
         stop = message.get("stop")
 
