@@ -73,9 +73,21 @@ class AsyncReceiver:
         if stop is True:
             tbot.stop()
 
+    async def distance_reactions(self):
+        while True:
+            distance = tbot.read_distance()
+
+            if distance <= 30:
+                tbot.fill_underlighting((255, 0, 0))
+            else:
+                tbot.fill_underlighting((0, 255, 0))
+
     async def start(self):
         await self.pubsub.subscribe("remotecommands")
         print("Subscribed to channel...")
+
+        print("Starting distance task...")
+        asyncio.create_task(self.distance_reactions())
 
         print("Receiving messages...")
         await self.receive_messages()
