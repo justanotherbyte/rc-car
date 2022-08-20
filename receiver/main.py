@@ -57,7 +57,7 @@ class AsyncReceiver:
         speed = message.get("speed")
 
         if direction and list(direction) == [0.0, 0.0]:
-            tbot.stop()
+            tbot.coast()
             return
 
 
