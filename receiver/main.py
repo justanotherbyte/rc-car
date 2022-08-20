@@ -61,10 +61,12 @@ class AsyncReceiver:
 
 
         if direction:
-            print(lowest(direction[0]))
-            print(lowest(direction[1]))
-            tbot.set_left_speed(lowest(direction[0]))
-            tbot.set_right_speed(lowest(direction[1]))
+            lx = lowest(direction[0])
+            ly = lowest(direction[0])
+            ly = 0 - ly
+
+            tbot.set_left_speed(ly + lx)
+            tbot.set_right_speed(ly - lx)
 
         stop = message.get("stop")
 
