@@ -67,6 +67,10 @@ class AsyncReceiver:
         if direction:
             lx = direction[0]
             ly = direction[1]
+
+            if ly < 0:
+                lx = 0 - lx
+                ly = 0 - ly
             
             x_speed, y_speed = joy_to_diff_drive(lx, ly)
             tbot.set_left_speed(x_speed + self.previous_speed)

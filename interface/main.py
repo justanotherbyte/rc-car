@@ -39,6 +39,7 @@ class ControllerLayout(Widget):
         distance_label = Label(text="No Distance Received", font_size="60sp", color=(200, 200, 200))
 
         def _distance_recv(message: Message):
+            print("DISTANCE RECV CALLED")
             if message.distance is not None:
                 distance_label.text = "Distance Reading: " + str(message.distance)
 

@@ -100,7 +100,8 @@ class InputHandler:
     def handle_listen(self):
         print("listening")
         for message in self.pubsub.listen():
-            print(message)
+            print("RECEIVIED MESSAGEs")
+            print(str(message))
             try:
                 message = Message.from_raw(message)
             except Exception as exc:
