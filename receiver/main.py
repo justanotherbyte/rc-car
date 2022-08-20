@@ -28,8 +28,11 @@ class AsyncReceiver:
         self.redis = aioredis.Redis(**params)
         self.pubsub = self.redis.pubsub()
 
+        self.previous_speed = 0.0
+
     async def receive_messages(self):
         async for message in self.pubsub.listen():
+            print(message)
             type_ = message.get("type")
             if type_ != "message":
                 continue
@@ -43,9 +46,17 @@ class AsyncReceiver:
 
     async def handle_message(self, message: Message):
         direction = message.get("direction")
+        speed = message.get("speed")
+
+        if speed and speed != self.previous_speed:
+            self.previous_speed = speed
+
+        def lowest(direction: float):
+            return min([1, direction + self.previous_speed])
+
         if direction:
-            tbot.set_left_speed(direction[0])
-            tbot.set_right_speed(direction[1])
+            tbot.set_left_speed(lowest(direction[0]))
+            tbot.set_right_speed(lowest(direction[1]))
 
         stop = message.get("stop")
 
