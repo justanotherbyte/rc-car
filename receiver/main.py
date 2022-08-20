@@ -59,7 +59,10 @@ class AsyncReceiver:
         def lowest(direction: float):
             return min([1, direction + self.previous_speed])
 
+
         if direction:
+            print(lowest(direction[0]))
+            print(lowest(direction[1]))
             tbot.set_left_speed(lowest(direction[0]))
             tbot.set_right_speed(lowest(direction[1]))
 
