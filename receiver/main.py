@@ -72,10 +72,10 @@ class AsyncReceiver:
 
             if ly < 0:
                 lx = 0 - lx
-                ly = 0 - ly
                 adjust_speed = 0
             
             x_speed, y_speed = joy_to_diff_drive(lx, ly)
+            print(x_speed, y_speed)
             tbot.set_left_speed(x_speed + adjust_speed)
             tbot.set_right_speed(y_speed + adjust_speed)
 
