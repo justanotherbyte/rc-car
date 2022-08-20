@@ -48,6 +48,11 @@ class AsyncReceiver:
         direction = message.get("direction")
         speed = message.get("speed")
 
+        if direction and list(direction) == [0.0, 0.0]:
+            tbot.stop()
+            return
+
+
         if speed and speed != self.previous_speed:
             self.previous_speed = speed
 
