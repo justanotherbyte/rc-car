@@ -101,6 +101,7 @@ class AsyncReceiver:
         while True:
             msg = await self.message_queue.get()
             await self.redis.publish("remotecommands", msg)
+            await asyncio.sleep(2.5)
 
     async def start(self):
         await self.pubsub.subscribe("remotecommands")
