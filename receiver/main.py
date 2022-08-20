@@ -73,7 +73,7 @@ class AsyncReceiver:
         if stop is True:
             tbot.stop()
 
-    async def distance_reactions(self):
+    def distance_reactions(self):
         while True:
             distance = tbot.read_distance()
 
@@ -87,7 +87,9 @@ class AsyncReceiver:
         print("Subscribed to channel...")
 
         print("Starting distance task...")
-        asyncio.create_task(self.distance_reactions())
+
+        coro = asyncio.to_thread(self.distance_reactions)
+        asyncio.create_task(coro)
 
         print("Receiving messages...")
         await self.receive_messages()
