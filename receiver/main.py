@@ -36,6 +36,7 @@ class AsyncReceiver:
         self.pubsub = self.redis.pubsub()
 
         self.previous_speed = 0.0
+        self.message_queue = asyncio.Queue(-1)
 
     async def receive_messages(self):
         async for message in self.pubsub.listen():
@@ -63,10 +64,6 @@ class AsyncReceiver:
         if speed and speed != self.previous_speed:
             self.previous_speed = speed
 
-        def lowest(direction: float):
-            return min([1, direction + self.previous_speed])
-
-
         if direction:
             lx = direction[0]
             ly = direction[1]
@@ -89,6 +86,15 @@ class AsyncReceiver:
             else:
                 tbot.fill_underlighting((0, 255, 0))
 
+            data = {"distance": distance}
+            payload = json.dumps(data)
+            self.message_queue.put_nowait(payload)
+
+    async def send_messages(self):
+        while True:
+            msg = await self.message_queue.get()
+            await self.redis.publish("remotecommands", msg)
+
     async def start(self):
         await self.pubsub.subscribe("remotecommands")
         print("Subscribed to channel...")
@@ -97,6 +103,9 @@ class AsyncReceiver:
 
         coro = asyncio.to_thread(self.distance_reactions)
         asyncio.create_task(coro)
+
+        print("Starting send task...")
+        asyncio.create_task(self.send_messages())
 
         print("Receiving messages...")
         await self.receive_messages()
